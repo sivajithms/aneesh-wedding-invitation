@@ -13,9 +13,31 @@ html {
   background: var(--linen);
 }
 
-html.is-scroll-locked,
 html:has(dialog[open]) {
   overflow: hidden;
+}
+
+/* The page overlaps the opening's last screen: the opening's card lands exactly on the page's. */
+.page {
+  position: relative;
+  z-index: 1;
+  margin-top: -100svh;
+}
+
+/* While the opening plays, the page waits unseen underneath (still readable by screen readers). */
+html[data-invite='opening'] .page {
+  opacity: 0;
+}
+
+/* Soft light from above and a darker fall-off to the edges, over everything, as if photographed. */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 28%, rgb(255 253 248 / 0.4), transparent 65%),
+    radial-gradient(ellipse at 50% 50%, transparent 58%, rgb(60 40 15 / 0.13));
 }
 
 body {

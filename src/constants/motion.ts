@@ -1,33 +1,39 @@
 /**
- * The opening sequence: sealed envelope → take the card out → untie the ribbon → unfold the flap →
- * lift the card to the page. Distances are in viewport heights of scrolling unless noted.
+ * The opening, played by scrolling: each chapter is a span on one timeline (in timeline units),
+ * and the whole timeline is stretched over `screens` viewport heights of scroll. Scrolling back
+ * up plays it in reverse. Gaps between chapters are small rests so each moment reads on its own.
  */
 export const OPENING = {
-  /** Scrolling it takes to slide the card out of the envelope. */
-  slideScreens: 1.2,
-  /** Scrolling it takes to lift the unfolded card up to reading size. */
-  takeOutScreens: 0.8,
-  /** How closely the scrubbed scene follows the scroll, per second (higher is snappier). */
-  scrubResponse: 7,
-  /** Share of a touch swipe's release speed carried on as momentum, in seconds. */
-  swipeMomentum: 0.22,
+  screens: 6,
+  chapters: {
+    /** The wax seal lifts, then drops away. */
+    seal: [0, 0.9],
+    /** The envelope's flap swings open. */
+    flap: [0.3, 1.6],
+    /** The card slides out, the envelope drops away and the card settles, tied with its ribbon. */
+    slide: [1.8, 4],
+    /** The ribbon's tail draws through the knot until the bow slips... */
+    untie: [4.3, 5.5],
+    /** ...and the loose ribbon slides off and falls. */
+    fall: [5.2, 6.5],
+    /** The card's flap swings down around its fold, and the card re-centres. */
+    unfold: [6.6, 8.3],
+    /** The card lifts to reading size, landing exactly on the page's card. */
+    lift: [8.7, 10.4],
+  },
+  /** The timeline's total length; a short rest after the lift. */
+  total: 10.6,
 
-  /** Ribbon: pull needed to slip the knot, as a share of the viewport's shorter side, in px. */
-  pullShare: 0.3,
-  pullMin: 90,
-  pullMax: 190,
-  /** Let go past this share of the pull and the knot slips anyway. */
-  untieCommit: 0.72,
+  /** How long a pause (ms) before "Keep scrolling" appears. */
+  idleCueMs: 1600,
+  /** "Play it for me" glides through the rest of the opening at this many seconds per screen. */
+  autoplaySecondsPerScreen: 1.6,
+  /** Scroll speed (progress per second) that tilts the card back by a degree. */
+  leanPerSpeed: 14,
+  leanMaxDeg: 5,
 
-  /** Flap: let go past this angle, or flick faster than this, and it falls open. */
-  unfoldCommitDeg: 95,
-  unfoldFlickDegPerSec: 320,
-
-  /** After a step starts waiting, scroll attempts nudge its hint at most this often. */
-  nudgeIntervalMs: 700,
-
-  /** Reduced motion: the envelope simply fades away. */
-  reducedFadeMs: 600,
+  /** Reduced motion: a cross-fade over this much scroll. */
+  reducedScreens: 0.8,
 } as const;
 
 /** Scroll-scrubbed reveals on the page: how far behind the scroll they trail, in seconds. */

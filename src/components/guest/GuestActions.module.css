@@ -18,10 +18,6 @@
   visibility: hidden;
 }
 
-.bar[hidden] {
-  display: none;
-}
-
 .action {
   display: inline-flex;
   flex: 1 1 auto;

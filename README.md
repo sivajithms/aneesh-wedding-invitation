@@ -1,6 +1,6 @@
 # Aneesh with Haseena — digital wedding invitation
 
-The printed wedding card, brought to life. It arrives sealed in an envelope on a linen table. The guest breaks the wax seal, slides the card out, pulls the satin ribbon to untie it and pulls the flap down to unfold it. Each step follows their finger and springs back if they let go too early. Then they lift the card up to the page and scroll through the invitation and its back cover. RSVP, Blessings and Directions stay in a bar at the bottom.
+The printed wedding card, brought to life. It arrives sealed in an envelope on a linen table, and scrolling opens it. The wax seal lifts away and the flap opens. The card slides out and its satin ribbon unties and falls. The card's flap unfolds, and the card rises to reading size, landing on the page. Scrolling back up plays it all in reverse. After that the guest scrolls through the invitation and its back cover, with RSVP, Blessings and Directions in a bar at the bottom.
 
 ```bash
 pnpm install
@@ -47,12 +47,12 @@ The printer's credit on the back (`mkrcards.com`) is intentionally not reproduce
 src/
   config/        wedding.ts (content), types.ts
   components/
-    opening/     Opening (scene markup), director.ts (the choreography), ribbon.ts (bow geometry), WaxSeal
+    opening/     Opening (scene markup), director.ts (the scroll choreography), ribbon.ts (bow geometry), WaxSeal
     card/        The card's panels, reused in the opening scene and on the page
     sections/    UnfoldedCard, SaveTheDate, SiteFooter
     guest/       Reply bar, RSVP and Blessings popups, sound switch
     ui/          Button, Reveal (scroll-scrubbed), Monogram, Ornament, icons
-  hooks/         reduced motion, in-view, countdown, tilt, scroll lock, smooth scroll (Lenis)
+  hooks/         reduced motion, in-view, countdown, tilt, smooth scroll (Lenis)
   lib/           dates in the card's formats, calendar (.ics / Google), links, guestbook, GSAP, sound
   constants/     motion timings and thresholds
   styles/        tokens (palette sampled from the card, type scale), global
@@ -60,8 +60,8 @@ src/
 
 ## Notes
 
-- **Choreography.** `director.ts` is a small state machine. Gestures (GSAP Draggable), scrolling (wheel, swipe, keys, scrubbed with easing) and timed GSAP timelines only write to one state object; a single `render()` draws the scene from it. At the end the card's pose lands exactly on the page's card (to a fraction of a pixel), so the fade between them is invisible.
-- **3D is CSS only.** Envelope flap, card flap, tilt and shadows are CSS 3D transforms, with SVG for the bow. WebGL would have meant rendering the card's text as textures, making it blurry and inaccessible for no visual gain. Initial JS is about 115 KB gzipped. Draggable, ScrollTrigger and Lenis (36 KB) load after first paint.
-- **Sound.** Paper, wax and satin sounds are synthesised with Web Audio (`lib/sound.ts`), so there are no audio files. They start after the first tap, as browsers require, and the speaker button turns them off (remembered per device).
-- **Accessibility.** Card text is real HTML. The opening scene is visual only, and the page behind it stays `inert` until the card is open. Focus then moves to the invitation heading. Every step's hint is also a button that does the step, so the whole opening works by keyboard or a single tap per step. `prefers-reduced-motion` turns the opening into one tap and a cross-fade, and disables tilt, drift, smooth scrolling and scrubbed reveals.
+- **Choreography.** The opening is a tall section (`OPENING.screens` viewport heights, in `constants/motion.ts`) whose stage stays pinned while the page scrolls. ScrollTrigger scrubs one GSAP timeline with the scroll position, and each chapter (seal, flap, slide, untie, fall, unfold, lift) is a span on it. The timeline only moves 0→1 values; `render()` in `director.ts` draws the scene from them, so it plays backwards as naturally as forwards. The page overlaps the section's last screen, so when the stage lets go the card is exactly where the page's card is, and the two scroll away together. Lenis smooths wheel and trackpad scrolling; touch stays native. The card leans slightly against fast scrolling and drifts gently at rest. A "Keep scrolling" cue appears after a pause, and tapping it plays the rest.
+- **3D is CSS only.** Envelope flap, card flap, tilt and shadows are CSS 3D transforms, with SVG for the bow. WebGL would have meant rendering the card's text as textures, making it blurry and inaccessible for no visual gain. Initial JS is about 115 KB gzipped. ScrollTrigger and Lenis (23 KB) load just after first paint.
+- **Sound.** Soft bells (D major pentatonic), paper and satin textures that follow scroll speed, and a faint ambient chord, all synthesised with Web Audio through a small reverb (`lib/sound.ts`). There are no audio files. Browsers only start audio after a tap, click or key press (scrolling doesn't count), so a "Tap for sound" chip shows until then. The speaker button turns sound off, remembered per device.
+- **Accessibility.** Card text is real HTML. The opening scene is decorative and hidden from assistive tech. While it plays, the page is transparent but still in the reading order, and a "Skip the opening" link jumps straight to the invitation. Keyboard scrolling (Space, Page Down, arrows) plays the opening like any other scroll. `prefers-reduced-motion` turns the opening into a short scroll cross-fade and disables tilt, drift, smooth scrolling and scrubbed reveals.
 - **Contrast adaptations.** The card prints white text on the pale-grey band and some copy in light tan or grey. Those use darker tints of the same hues here, to stay legible.

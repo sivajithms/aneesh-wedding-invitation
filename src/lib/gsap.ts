@@ -5,16 +5,7 @@ gsap.registerPlugin(useGSAP);
 
 export { gsap, useGSAP };
 
-/**
- * Draggable, ScrollTrigger and Lenis are only needed once the guest starts interacting,
- * so they load after first paint instead of weighing down the initial bundle.
- */
-export const loadDraggable = () =>
-  import('gsap/Draggable').then(({ Draggable }) => {
-    gsap.registerPlugin(Draggable);
-    return Draggable;
-  });
-
+/** ScrollTrigger loads just after first paint, so it doesn't delay the envelope appearing. */
 export const loadScrollTrigger = () =>
   import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
     gsap.registerPlugin(ScrollTrigger);

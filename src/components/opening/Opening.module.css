@@ -1,5 +1,5 @@
-/* Envelope stock: warmer than the card's white so the card reads as a separate sheet. */
-.overlay {
+/* The opening is a tall stretch of page; its stage stays pinned while the guest scrolls through it. */
+.scene {
   --envelope: #f3ede3;
   --envelope-shade: #e8e0d2;
   --liner:
@@ -12,15 +12,25 @@
   --env-top: calc(var(--card-h) * -0.035);
   --env-h: calc(var(--card-h) * 1.06);
 
-  position: fixed;
-  inset: 0;
-  z-index: 50;
+  position: relative;
+  z-index: 2;
+  height: calc(var(--screens) * 100svh);
+}
+
+/* Transparent: the page's linen shows through. Envelope stock is warmer than the card's white. */
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
   overflow: hidden;
-  background: var(--linen);
-  touch-action: none;
+  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hidden the moment the card lands, in the same frame the page's own card takes over. */
+:global(html[data-invite='opened']) .stage {
+  visibility: hidden;
 }
 
 /* Reads env(safe-area-inset-*) for the director's layout. */
@@ -39,6 +49,7 @@
   width: var(--card-w);
   container-type: inline-size;
   visibility: hidden;
+  will-change: transform;
 }
 
 /* ---------- Envelope ---------- */
@@ -135,7 +146,7 @@
   transform: rotateX(180deg);
 }
 
-/* Wax seal at the flap's tip. The hit area stays at least 48px on screen. */
+/* Wax seal at the flap's tip. */
 .seal {
   position: absolute;
   z-index: 7;
@@ -143,27 +154,7 @@
   top: calc(var(--env-top) + var(--env-h) * 0.4 - 15cqi);
   width: 22cqi;
   aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  cursor: pointer;
   filter: drop-shadow(0 3px 4px rgb(60 35 15 / 0.35));
-}
-
-.seal::after {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
-}
-
-.seal:disabled {
-  cursor: default;
-}
-
-.seal:focus-visible {
-  outline-offset: 6px;
 }
 
 .seal svg {
@@ -250,44 +241,6 @@
   pointer-events: none;
 }
 
-.flapGrab {
-  position: absolute;
-  top: 3cqi;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 12cqi;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: rgb(199 145 99 / 0.14);
-  color: var(--color-tan-deep);
-  translate: -50% 0;
-  opacity: 0;
-  transition: opacity 400ms var(--ease-elegant);
-}
-
-.flapGrab svg {
-  width: 60%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  animation: bob-down 1.6s var(--ease-elegant) infinite;
-}
-
-.overlay[data-phase='unfold'] .flapGrab {
-  opacity: 1;
-}
-
-.overlay[data-phase='unfold'] .flap {
-  cursor: grab;
-}
-
-.overlay[data-phase='unfold'] .flap:active {
-  cursor: grabbing;
-}
-
 /* ---------- Ribbon ---------- */
 
 .ribbon {
@@ -333,43 +286,9 @@
   stroke-width: 0.8;
 }
 
-/* Marks the tail end to grab; only shown while the ribbon is waiting to be pulled. */
-.ring {
-  fill: none;
-  stroke: #fffaf2;
-  stroke-width: 2;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
+/* ---------- Scroll cue ---------- */
 
-.overlay[data-phase='untie'] .ring {
-  opacity: 1;
-  animation: ring 1.8s var(--ease-elegant) infinite;
-}
-
-.tailHandle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--handle, 56px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  translate: -50% -50%;
-}
-
-.overlay[data-phase='untie'] .tailHandle {
-  pointer-events: auto;
-  cursor: grab;
-}
-
-.overlay[data-phase='untie'] .tailHandle:active {
-  cursor: grabbing;
-}
-
-/* ---------- Hints ---------- */
-
-.hints {
+.cue {
   position: absolute;
   right: 0;
   bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
@@ -377,11 +296,12 @@
   display: flex;
   justify-content: center;
   padding-inline: var(--gutter);
-  pointer-events: none;
 }
 
-.hint {
+.cueButton {
   display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   min-height: 2.9rem;
   padding: 0.5rem 1.3rem 0.5rem 0.95rem;
   border: 1px solid rgb(166 111 64 / 0.22);
@@ -395,107 +315,72 @@
   line-height: 1.2;
   color: var(--color-ink);
   cursor: pointer;
-  pointer-events: auto;
-  transition:
-    opacity 400ms var(--ease-elegant),
-    translate 600ms var(--ease-out-expo);
-}
-
-.hint[data-visible='false'] {
   opacity: 0;
   translate: 0 0.75rem;
-  pointer-events: none;
+  transition:
+    opacity 700ms var(--ease-elegant),
+    translate 900ms var(--ease-out-expo);
 }
 
-.hintContent {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  animation: hint-in 600ms var(--ease-out-expo) both;
+.scene:not([data-cue='none']) .cueButton {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
 }
 
-.hintIcon {
+/* Only the line for the current cue, and the wording for this kind of pointer. */
+.scene:not([data-cue='start']) [data-text='start'],
+.scene:not([data-cue='continue']) [data-text='continue'] {
+  display: none;
+}
+
+[data-pointer='touch'] {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  [data-pointer='touch'] {
+    display: inline;
+  }
+
+  [data-pointer='fine'] {
+    display: none;
+  }
+}
+
+.cueIcon {
   flex: none;
   width: 1.35rem;
   fill: none;
   stroke: var(--color-tan-deep);
-  stroke-width: 2;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.hintIcon[data-icon='tap'] {
-  fill: var(--color-tan);
-  stroke: none;
-  animation: tap 2.2s var(--ease-elegant) infinite;
+/* Two chevrons ripple upwards, one after the other, like the direction to scroll. */
+.cueIcon path {
+  animation: ripple 1.8s var(--ease-elegant) infinite;
 }
 
-.hintIcon[data-icon='up'] {
-  animation: bob-up 1.6s var(--ease-elegant) infinite;
+.cueIcon path:last-child {
+  animation-delay: 0.18s;
 }
 
-.hintIcon[data-icon='pull'] {
-  animation: bob-pull 1.6s var(--ease-elegant) infinite;
-}
-
-.hintIcon[data-icon='down'] {
-  animation: bob-down 1.6s var(--ease-elegant) infinite;
-}
-
-@keyframes hint-in {
-  from {
-    opacity: 0;
-    translate: 0 0.35rem;
-  }
-}
-
-@keyframes tap {
+@keyframes ripple {
   0%,
   100% {
-    scale: 1;
+    opacity: 0.35;
+    translate: 0 1px;
   }
-  15% {
-    scale: 0.7;
-  }
-  35% {
-    scale: 1.1;
-  }
-}
-
-@keyframes bob-up {
-  50% {
-    translate: 0 -3px;
-  }
-}
-
-@keyframes bob-down {
-  50% {
-    translate: 0 3px;
-  }
-}
-
-@keyframes bob-pull {
-  50% {
-    translate: 2px 2px;
-  }
-}
-
-@keyframes ring {
-  0% {
-    scale: 0.7;
-    opacity: 0.95;
-  }
-  100% {
-    scale: 1.5;
-    opacity: 0;
+  40% {
+    opacity: 1;
+    translate: 0 -2px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hintContent,
-  .hintIcon,
-  .flapGrab svg,
-  .overlay[data-phase='untie'] .ring {
+  .cueIcon path {
     animation: none;
   }
 }

@@ -1,7 +1,8 @@
 .corner,
 .inline {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
@@ -22,6 +23,26 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   box-shadow: var(--shadow-card);
+}
+
+/* The "Tap for sound" label only shows before the guest starts scrolling, clear of the card. */
+.label {
+  display: none;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+:global(body:has(section[data-cue='start'])) .corner[data-waiting='true'] {
+  gap: 0.4rem;
+  width: auto;
+  padding: 0 0.95rem 0 0.75rem;
+  border-radius: var(--radius-pill);
+}
+
+:global(body:has(section[data-cue='start'])) .label {
+  display: inline;
 }
 
 .inline {

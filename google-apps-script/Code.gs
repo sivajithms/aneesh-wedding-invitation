@@ -8,11 +8,13 @@
  */
 
 /**
- * Only needed if this script was created at script.google.com rather than from the sheet's
- * Extensions → Apps Script menu: paste the sheet's ID here (the long part of its URL between
- * /d/ and /edit). Leave empty for a script opened from the sheet.
+ * Which sheet to write to. Leave empty and run setup() once from the editor: it uses the sheet
+ * this script was opened from (Extensions → Apps Script) or, for a script created at
+ * script.google.com, creates a "Wedding replies" sheet in your Drive. Or paste a sheet's ID here
+ * (the long part of its URL between /d/ and /edit).
  */
 const SHEET_ID = '';
+const SHEET_TITLE = 'Wedding replies';
 
 const TABS = {
   rsvp: { name: 'RSVPs', headers: ['Updated', 'Name', 'Reply', 'Guests', 'Reply ID'] },
@@ -35,6 +37,30 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/**
+ * Run once from the editor (choose "setup" next to Run): grants the Sheets permission, makes sure
+ * the replies sheet exists with both tabs, and prints its link in the Execution log.
+ */
+function setup() {
+  const book = spreadsheet();
+  tab(TABS.rsvp);
+  tab(TABS.blessing);
+  console.log(`Replies will be saved to: ${book.getUrl()}`);
+}
+
+/** The sheet replies go to: SHEET_ID, else the sheet this script is bound to, else one created by setup(). */
+function spreadsheet() {
+  if (SHEET_ID) return SpreadsheetApp.openById(SHEET_ID);
+  const bound = SpreadsheetApp.getActiveSpreadsheet();
+  if (bound) return bound;
+  const props = PropertiesService.getScriptProperties();
+  const saved = props.getProperty('SHEET_ID');
+  if (saved) return SpreadsheetApp.openById(saved);
+  const created = SpreadsheetApp.create(SHEET_TITLE);
+  props.setProperty('SHEET_ID', created.getId());
+  return created;
 }
 
 /** Opening the /exec URL in a browser shows this, to confirm the deployment works. */
@@ -66,8 +92,7 @@ function saveBlessing(p) {
 }
 
 function tab({ name, headers }) {
-  const book = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
-  if (!book) throw new Error('No sheet: open this script from the sheet (Extensions → Apps Script) or set SHEET_ID.');
+  const book = spreadsheet();
   let sheet = book.getSheetByName(name);
   if (!sheet) {
     sheet = book.insertSheet(name);

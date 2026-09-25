@@ -22,24 +22,25 @@ export function GuestActions({ wedding, visible }: GuestActionsProps) {
   const reducedMotion = usePrefersReducedMotion();
   const close = () => setDialog(null);
 
+  // Rises in once the card is open; slips away again if the guest scrolls back into the opening.
   useGSAP(
     () => {
-      if (!visible) return;
-      gsap.fromTo(
-        barRef.current,
-        { autoAlpha: 0, y: reducedMotion ? 0 : 24 },
-        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: 0.25 },
-      );
+      const bar = barRef.current!;
+      if (!visible) {
+        gsap.to(bar, { autoAlpha: 0, y: reducedMotion ? 0 : 20, duration: 0.35, ease: 'power2.in' });
+        return;
+      }
+      gsap.fromTo(bar, { autoAlpha: 0, y: reducedMotion ? 0 : 24 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.15 });
       if (!reducedMotion) {
-        gsap.from(barRef.current!.children, { y: 12, autoAlpha: 0, duration: 0.6, ease: 'back.out(1.8)', stagger: 0.07, delay: 0.4 });
+        gsap.fromTo(bar.children, { y: 10, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, ease: 'back.out(1.6)', stagger: 0.07, delay: 0.3 });
       }
     },
-    { dependencies: [visible], scope: barRef },
+    { dependencies: [visible, reducedMotion], scope: barRef },
   );
 
   return (
     <>
-      <nav ref={barRef} className={styles.bar} aria-label="Reply to the invitation" hidden={!visible}>
+      <nav ref={barRef} className={styles.bar} aria-label="Reply to the invitation">
         <button type="button" className={styles.action} data-primary onClick={() => setDialog('rsvp')} aria-haspopup="dialog">
           <EnvelopeIcon /> RSVP
         </button>

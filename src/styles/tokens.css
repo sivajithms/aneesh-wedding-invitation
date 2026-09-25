@@ -60,10 +60,8 @@
   /* White card stock: the grain is veiled so the paper stays clean white, as printed. */
   --paper: linear-gradient(rgb(251 251 250 / 0.86) 0 0), var(--grain), var(--color-paper);
 
-  /* Warm linen tablecloth the card rests on */
+  /* Warm linen tablecloth the card rests on (lit by the fixed .vignette above it) */
   --linen:
-    radial-gradient(ellipse at 50% 30%, rgb(255 253 248 / 0.7), transparent 60%),
-    radial-gradient(ellipse at 50% 50%, transparent 55%, rgb(60 40 15 / 0.16)),
     var(--grain),
     repeating-linear-gradient(0deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 3px),
     repeating-linear-gradient(90deg, rgb(90 70 40 / 0.035) 0 1px, transparent 1px 3px),
