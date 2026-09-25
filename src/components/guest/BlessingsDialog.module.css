@@ -1,0 +1,19 @@
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.count {
+  flex: none;
+  font-family: var(--font-condensed);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-soft);
+  transition: color var(--duration-fast) var(--ease-elegant);
+}
+
+.count[data-warn='true'] {
+  color: var(--color-tan-text);
+}

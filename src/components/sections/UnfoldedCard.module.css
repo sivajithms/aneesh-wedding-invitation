@@ -1,0 +1,26 @@
+.card {
+  width: min(100% - var(--gutter) * 2, var(--width-card));
+  margin: calc(env(safe-area-inset-top) + clamp(1rem, 4vw, 3.5rem)) auto 0;
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: var(--shadow-lifted);
+  scroll-margin-top: var(--space-md);
+}
+
+/* The fold line where the flap meets the card: a faint valley with a highlight beside it. */
+.crease {
+  height: 12px;
+  margin-block: -6px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(60 45 25 / 0.07) 45%,
+    rgb(255 255 255 / 0.9) 55%,
+    transparent
+  );
+}
+
+.flap {
+  border-radius: 0 0 2px 2px;
+  background: var(--paper);
+}

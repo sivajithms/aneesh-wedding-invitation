@@ -1,0 +1,104 @@
+.choices {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice {
+  min-height: 3.1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgb(166 111 64 / 0.45);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.6);
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-tan-text);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-elegant),
+    color var(--duration-fast) var(--ease-elegant),
+    border-color var(--duration-fast) var(--ease-elegant),
+    scale var(--duration-fast) var(--ease-elegant);
+}
+
+.choice:hover {
+  border-color: var(--color-tan-text);
+}
+
+.choice:active {
+  scale: 0.98;
+}
+
+.choice[aria-pressed='true'] {
+  border-color: var(--color-tan-text);
+  background: var(--color-tan-text);
+  color: var(--color-on-tan);
+}
+
+.choice[data-accept='false'][aria-pressed='true'] {
+  border-color: var(--color-grey-text);
+  background: var(--color-grey-text);
+}
+
+.guests {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(0 0 0 / 0.16);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.7);
+}
+
+.stepper button {
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  font-size: 1.3rem;
+  color: var(--color-tan-text);
+  cursor: pointer;
+}
+
+.stepper button:disabled {
+  color: rgb(0 0 0 / 0.25);
+  cursor: default;
+}
+
+.stepper output {
+  min-width: 1.6rem;
+  font-family: var(--font-condensed);
+  font-size: 1.35rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--color-tan-deep);
+}
+
+.deadline,
+.answer {
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--color-ink-soft);
+}
+
+.deadline {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.answer strong {
+  font-weight: 500;
+  color: var(--color-ink);
+}

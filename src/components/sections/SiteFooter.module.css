@@ -1,0 +1,37 @@
+.footer {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  /* Clears the floating reply bar. */
+  padding: var(--space-section) var(--gutter) calc(var(--space-lg) + 4.5rem + env(safe-area-inset-bottom));
+}
+
+.monogram {
+  --size: 4.5rem;
+  animation: drift 7s ease-in-out infinite alternate;
+}
+
+.backToTop {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-xs);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-underline-offset: 0.4em;
+  color: var(--color-tan-text);
+}
+
+@keyframes drift {
+  to {
+    translate: 0 -6px;
+    rotate: 2deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monogram {
+    animation: none;
+  }
+}

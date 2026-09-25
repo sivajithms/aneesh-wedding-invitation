@@ -1,0 +1,152 @@
+/* Sized from the panel's own width (container units) so the same markup works as the
+   miniature in the opening card and as the full invitation on the page. */
+.panel {
+  container-type: inline-size;
+  padding: 1.2cqi 1.2cqi 4cqi;
+}
+
+.monograms {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.monogram {
+  --size: 26cqi;
+}
+
+.monograms .monogram:last-child {
+  margin-top: -0.6cqi;
+}
+
+/* Thick pale-grey frame around a white field, as printed. */
+.frame {
+  margin: 16cqi 2.4cqi 0;
+  border: clamp(8px, 2.4cqi, 14px) solid var(--color-grey);
+  background: var(--color-paper);
+  transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 700ms var(--ease-out-expo), box-shadow 700ms var(--ease-elegant);
+}
+
+.frame:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.7rem, 3.4cqi, 1.3rem);
+  padding: clamp(1.5rem, 7cqi, 2.75rem) clamp(0.9rem, 6cqi, 2.5rem);
+  font-size: clamp(0.88rem, 2.9cqi, 1.05rem);
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.bismillah {
+  font-family: var(--font-arabic);
+  font-size: 1.35em;
+  line-height: 1.2;
+  margin-bottom: -0.5em;
+}
+
+.request {
+  max-width: 30em;
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.names:focus {
+  outline: none;
+}
+
+.name {
+  font-family: var(--font-brush);
+  font-size: clamp(1.9rem, 6.6cqi, 2.7rem);
+  color: var(--color-tan-deep);
+}
+
+.joiner {
+  font-size: clamp(0.88rem, 2.9cqi, 1.05rem);
+  color: var(--color-ink);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: clamp(0.75rem, 4cqi, 1.5rem);
+  align-items: stretch;
+  width: min(100%, 22em);
+}
+
+.details::before {
+  content: '';
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--color-tan);
+}
+
+.when,
+.where {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-row: 1;
+}
+
+.when {
+  grid-column: 1;
+}
+
+.where {
+  grid-column: 3;
+}
+
+.when time {
+  display: contents;
+}
+
+.line,
+.venue {
+  display: block;
+}
+
+.day {
+  display: block;
+  font-family: var(--font-condensed);
+  font-size: clamp(2.2rem, 8cqi, 3.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--color-tan-deep);
+}
+
+.pin {
+  font-size: clamp(2rem, 7cqi, 2.8rem);
+  margin-bottom: 0.2em;
+  color: var(--color-tan);
+}
+
+.venue {
+  max-width: 9em;
+}
+
+.ornament {
+  width: min(55%, 12rem);
+}
+
+.compliments {
+  margin-top: -0.2em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame {
+    transform: none;
+  }
+}

@@ -1,0 +1,6 @@
+.ornament {
+  width: min(12rem, 55%);
+  height: auto;
+  margin-inline: auto;
+  color: var(--color-tan);
+}

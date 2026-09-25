@@ -1,0 +1,97 @@
+.panel {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.6rem, 3cqi, 1.1rem);
+  padding: clamp(2rem, 9cqi, 3.5rem) clamp(1rem, 7cqi, 2.5rem) clamp(2.5rem, 12cqi, 4.5rem);
+  text-align: center;
+}
+
+.blessing {
+  max-width: 24em;
+  font-size: clamp(0.88rem, 2.9cqi, 1.05rem);
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.dua {
+  font-family: var(--font-arabic);
+  font-size: clamp(0.95rem, 3cqi, 1.15rem);
+}
+
+.duaPlaceholder {
+  width: min(30%, 7rem);
+}
+
+/* Heart outline with the invitation script written across it. */
+.invited {
+  display: grid;
+  place-items: center;
+  width: min(62cqi, 20rem);
+  margin-top: clamp(1rem, 6cqi, 2.5rem);
+}
+
+.heart,
+.invitedText {
+  grid-area: 1 / 1;
+}
+
+.heart {
+  width: 88%;
+  translate: 12% -6%;
+  rotate: 8deg;
+  fill: none;
+  stroke: var(--color-grey);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.2s var(--ease-elegant);
+}
+
+.invited[data-drawn='true'] .heart {
+  stroke-dashoffset: 0;
+}
+
+.invitedText {
+  max-width: 5em;
+  font-family: var(--font-script);
+  font-size: clamp(2.3rem, 11cqi, 3.6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  rotate: -12deg;
+  translate: -10% 8%;
+  /* Lighter than the ink, like the card, while keeping 3:1 contrast for large text. */
+  color: #8e8f93;
+}
+
+.couple {
+  margin-top: clamp(0.5rem, 3cqi, 1rem);
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 8.2cqi, 2.9rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-tan-deep);
+}
+
+.with {
+  font-size: 0.45em;
+  text-transform: lowercase;
+}
+
+.date {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 3.5cqi, 1.25rem);
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart {
+    transition: none;
+  }
+}

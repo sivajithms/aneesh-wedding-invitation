@@ -1,0 +1,128 @@
+/* Shared by the RSVP and Blessings cards. */
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 1.6rem + 1.2vw, 2.3rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--color-ink);
+}
+
+.sub {
+  margin-top: 0.4rem;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  text-align: center;
+  color: var(--color-ink-soft);
+}
+
+.form {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1.5rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-ink-soft);
+}
+
+.input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid rgb(0 0 0 / 0.18);
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 0.7);
+  font-size: max(16px, var(--text-base));
+  line-height: 1.45;
+  transition:
+    border-color var(--duration-fast) var(--ease-elegant),
+    box-shadow var(--duration-fast) var(--ease-elegant);
+}
+
+textarea.input {
+  min-height: 8.5rem;
+  resize: vertical;
+  font-family: var(--font-serif);
+  font-size: max(17px, 1.12rem);
+  font-style: italic;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-tan-text);
+  box-shadow: 0 0 0 3px rgb(138 90 48 / 0.18);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
+.error,
+.formError {
+  font-size: var(--text-sm);
+  color: var(--color-error);
+}
+
+.formError {
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid var(--color-error);
+  background: rgb(155 44 44 / 0.06);
+}
+
+.submit {
+  justify-self: center;
+  min-width: 11rem;
+  min-height: 3rem;
+}
+
+.done {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.doneMark {
+  width: 3.25rem;
+  color: var(--color-tan);
+}
+
+.doneMark path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 900ms var(--ease-elegant) 150ms forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doneMark path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

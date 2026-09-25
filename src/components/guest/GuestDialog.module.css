@@ -1,0 +1,73 @@
+.dialog {
+  width: min(100% - 2rem, 26rem);
+  max-height: calc(100svh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  overflow: visible;
+}
+
+.dialog::backdrop {
+  /* A plain tint: a backdrop blur re-renders the whole page behind it on every frame. */
+  background: rgb(52 38 20 / 0.5);
+}
+
+.dialog[open]::backdrop {
+  animation: backdrop-in 400ms var(--ease-elegant);
+}
+
+/* A note card from the same set: paper stock inside the card's thick grey frame. */
+.panel {
+  position: relative;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(1.75rem, 6vw, 2.5rem) clamp(1.25rem, 5vw, 2rem) clamp(1.5rem, 5vw, 2rem);
+  border: clamp(8px, 2.2vw, 11px) solid var(--color-grey);
+  border-radius: 3px;
+  background: var(--paper);
+  box-shadow: var(--shadow-lifted);
+}
+
+.close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-elegant);
+}
+
+.close:hover {
+  background: rgb(0 0 0 / 0.05);
+}
+
+.close svg {
+  width: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open]::backdrop {
+    animation: none;
+  }
+}
