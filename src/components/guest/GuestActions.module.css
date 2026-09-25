@@ -73,3 +73,10 @@
     display: none;
   }
 }
+
+/* Below the top quality tier, a solid bar instead of blurring the page scrolling behind it. */
+:global(html:not([data-quality='high'])) .bar {
+  background: rgb(255 253 248 / 0.97);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

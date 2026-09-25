@@ -1,12 +1,10 @@
 /**
- * RSVPs and blessings go to a Google Sheet through a small Apps Script web app
+ * RSVPs go to a Google Sheet through a small Apps Script web app
  * (google-apps-script/Code.gs). Each phone keeps a random reply id, so changing an RSVP
  * later updates that guest's row instead of adding a second one.
  */
 
-export type GuestbookEntry =
-  | { type: 'rsvp'; name: string; attending: boolean; guests: number }
-  | { type: 'blessing'; name: string; message: string };
+export type GuestbookEntry = { type: 'rsvp'; name: string; attending: boolean; guests: number };
 
 export class GuestbookError extends Error {}
 

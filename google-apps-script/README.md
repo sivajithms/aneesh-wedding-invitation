@@ -1,4 +1,4 @@
-# Guestbook: RSVPs and blessings into a Google Sheet
+# Guestbook: RSVPs into a Google Sheet
 
 About five minutes, once.
 
@@ -20,7 +20,6 @@ To check it's working, open the `/exec` URL in a browser. It should say *"The we
 | Tab | Columns |
 | --- | --- |
 | RSVPs | Updated, Name, Reply (Joyfully accepts / Regretfully declines), Guests, Reply ID |
-| Blessings | Received, Name, Blessing (up to 300 characters) |
 
 Each phone gets its own Reply ID. A guest who changes their answer updates their existing row, so the sheet doesn't collect duplicates.
 

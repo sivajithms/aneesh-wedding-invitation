@@ -250,40 +250,11 @@
   pointer-events: none;
 }
 
-/* Satin: bright along its middle, darker where it curves over the card's edges. */
-.band {
+/* Positioned and sized by SatinRibbon to the region the ribbon moves in. */
+.ribbonCanvas {
   position: absolute;
-  top: calc(var(--band-y) - var(--rw) / 2);
-  left: -5px;
-  right: -5px;
-  height: var(--rw);
-  background:
-    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, #96643b, #c79163 18%, #eac59f 44%, #d4a273 60%, #b07a4d 82%, #8c5c35);
-  box-shadow: 0 2px 4px rgb(60 40 15 / 0.3);
-}
-
-.bow {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.loopEdge {
-  stroke: rgb(110 70 38 / 0.45);
-  stroke-width: 0.8;
-}
-
-.loopInner {
-  fill: #7d4f2c;
-  opacity: 0.55;
-}
-
-.knot {
-  stroke: rgb(110 70 38 / 0.5);
-  stroke-width: 0.8;
+  /* Wider than the card on purpose: the ribbon moves past its edges. */
+  max-width: none;
 }
 
 /* ---------- Scroll cue ---------- */
@@ -383,4 +354,9 @@
   .cueIcon path {
     animation: none;
   }
+}
+
+/* On the lowest tier the seal keeps a clean edge instead of the roughened-wax filter. */
+:global(html[data-quality='low']) .seal circle {
+  filter: none;
 }

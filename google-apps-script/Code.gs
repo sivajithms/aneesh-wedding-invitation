@@ -1,10 +1,8 @@
 /**
- * Guestbook for the wedding invitation: saves RSVPs and blessings into this Google Sheet.
+ * Guestbook for the wedding invitation: saves RSVPs into a Google Sheet.
  * Setup: see README.md in this folder.
  *
- * Tabs are created on first use:
- *   RSVPs      one row per guest's phone; changing a reply updates that row
- *   Blessings  one row per blessing
+ * The RSVPs tab is created on first use: one row per guest's phone; changing a reply updates that row.
  */
 
 /**
@@ -18,10 +16,9 @@ const SHEET_TITLE = 'Wedding replies';
 
 const TABS = {
   rsvp: { name: 'RSVPs', headers: ['Updated', 'Name', 'Reply', 'Guests', 'Reply ID'] },
-  blessing: { name: 'Blessings', headers: ['Received', 'Name', 'Blessing'] },
 };
 
-const LIMITS = { name: 80, message: 300, guests: 20 };
+const LIMITS = { name: 80, guests: 20 };
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -29,7 +26,6 @@ function doPost(e) {
   try {
     const p = (e && e.parameter) || {};
     if (p.type === 'rsvp') return saveRsvp(p);
-    if (p.type === 'blessing') return saveBlessing(p);
     return reply({ ok: false, error: 'Unknown reply type.' });
   } catch (err) {
     console.error(err);
@@ -41,12 +37,11 @@ function doPost(e) {
 
 /**
  * Run once from the editor (choose "setup" next to Run): grants the Sheets permission, makes sure
- * the replies sheet exists with both tabs, and prints its link in the Execution log.
+ * the replies sheet exists with its RSVPs tab, and prints its link in the Execution log.
  */
 function setup() {
   const book = spreadsheet();
   tab(TABS.rsvp);
-  tab(TABS.blessing);
   console.log(`Replies will be saved to: ${book.getUrl()}`);
 }
 
@@ -81,13 +76,6 @@ function saveRsvp(p) {
   const existing = id ? ids.indexOf(id) : -1;
   if (existing >= 0) sheet.getRange(existing + 2, 1, 1, row.length).setValues([row.map(safe)]);
   else sheet.appendRow(row.map(safe));
-  return reply({ ok: true });
-}
-
-function saveBlessing(p) {
-  const message = clean(p.message, LIMITS.message);
-  if (!message) return reply({ ok: false, error: 'Write a few words before sending.' });
-  tab(TABS.blessing).appendRow([new Date(), clean(p.name, LIMITS.name) || 'A guest', message].map(safe));
   return reply({ ok: true });
 }
 

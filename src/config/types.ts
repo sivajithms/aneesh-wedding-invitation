@@ -7,7 +7,7 @@ export interface Partner {
 
 export interface GuestbookConfig {
   /**
-   * The Google Apps Script web app that writes RSVPs and blessings into your Google Sheet
+   * The Google Apps Script web app that writes RSVPs into your Google Sheet
    * (its URL ends in /exec). See google-apps-script/README.md. Leave empty until it's deployed.
    */
   endpoint: string;
@@ -55,7 +55,7 @@ export interface WeddingConfig {
     saveTheDate: { save: string; the: string; date: string };
   };
 
-  /** RSVPs and blessings; not printed on the card. */
+  /** RSVPs; not printed on the card. */
   guestbook: GuestbookConfig;
 
   meta: {

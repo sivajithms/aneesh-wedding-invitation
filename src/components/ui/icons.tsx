@@ -48,11 +48,6 @@ export const EnvelopeIcon = (props: IconProps) => (
   </Icon>
 );
 
-export const HeartIcon = (props: IconProps) => (
-  <Icon {...props}>
-    <path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0112 7.2a4.3 4.3 0 017.5 2.6C19.5 15.4 12 20 12 20z" />
-  </Icon>
-);
 
 export const SoundIcon = ({ muted, ...props }: IconProps & { muted: boolean }) => (
   <Icon {...props}>

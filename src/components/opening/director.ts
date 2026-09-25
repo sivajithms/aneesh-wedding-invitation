@@ -2,8 +2,11 @@ import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
 import { OPENING } from '../../constants/motion';
 import { smoothScrollTo } from '../../hooks/useSmoothScroll';
 import { gsap, loadScrollTrigger } from '../../lib/gsap';
+import { FrameBudget, onQualityChange, quality } from '../../lib/quality';
 import { sound } from '../../lib/sound';
-import { loopPaths, ribbonGeometry, tailPath, type RibbonGeometry, type Vec } from './ribbon';
+import { RIBBON } from './ribbon/config';
+import { ribbonGeometry, type RibbonGeometry } from './ribbon/geometry';
+import { SatinRibbon } from './ribbon/SatinRibbon';
 
 /** Where the whole rig (envelope + card) sits on the stage: centre point, scale and tilt. */
 interface Pose {
@@ -69,6 +72,9 @@ export class OpeningScene {
   private trigger: ScrollTriggerType | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private open = false;
+  private readonly ribbon: SatinRibbon;
+  private readonly budget = new FrameBudget();
+  private stopQualityWatch: () => void = () => {};
 
   /** Scrubbed chapter values, plus the frame loop's lean and drift. */
   private readonly state = {
@@ -106,11 +112,11 @@ export class OpeningScene {
     this.el = Object.fromEntries(
       [
         'stage', 'rig', 'card', 'sheet', 'flap', 'outerShade', 'innerShade', 'sheetCast', 'flapShadow', 'envFlap',
-        'flapShadowOnPocket', 'seal', 'ribbon', 'bow', 'loopL', 'loopLOuter', 'loopLInner', 'loopR', 'loopROuter',
-        'loopRInner', 'tailFixed', 'tailPulled', 'knot', 'safe',
+        'flapShadowOnPocket', 'seal', 'ribbon', 'ribbonCanvas', 'safe',
       ].map((name) => [name, part(name)]),
     );
     this.envelope = [...root.querySelectorAll<HTMLElement>('[data-part="env"]')];
+    this.ribbon = new SatinRibbon(this.el.ribbonCanvas as HTMLCanvasElement, { animate: !options.reducedMotion });
     this.setOpen(false, true);
     void this.start();
   }
@@ -154,6 +160,11 @@ export class OpeningScene {
     gsap.ticker.add(this.tick);
     this.lastScrollAt = performance.now();
     this.render();
+    // If the device can't keep up, the ribbon and effects re-lay out at the lower tier.
+    this.stopQualityWatch = onQualityChange(() => {
+      this.measure();
+      this.render();
+    });
 
     gsap.to(this.state, {
       rise: 1,
@@ -170,6 +181,7 @@ export class OpeningScene {
     this.trigger?.kill();
     this.timeline?.kill();
     this.resizeObserver?.disconnect();
+    this.stopQualityWatch();
     delete document.documentElement.dataset.invite;
     sound.slide.set(0);
     sound.rustle.set(0);
@@ -219,7 +231,7 @@ export class OpeningScene {
     this.open = open;
     // Switched in the same frame the card lands, so the page's card takes over seamlessly.
     document.documentElement.dataset.invite = open ? 'opened' : this.options.reducedMotion ? 'fading' : 'opening';
-    sound.ambience(!open);
+    sound.ambience(!open && quality().ambience);
     if (!force) this.options.onOpenChange(open);
   }
 
@@ -233,15 +245,21 @@ export class OpeningScene {
     const progress = this.timeline.progress();
     const delta = progress - this.lastProgress;
     this.lastProgress = progress;
-    if (delta !== 0) this.lastScrollAt = now;
+    if (delta !== 0) {
+      this.lastScrollAt = now;
+      // Only judge the device's pace while the opening is actually animating.
+      if (!this.open) this.budget.observe(deltaMs, now);
+    }
     this.speed += (delta / Math.max(dt, 0.001) - this.speed) * (1 - Math.exp(-dt * 10));
+    this.ribbon.update(dt);
 
     if (!this.options.reducedMotion) {
+      const { lean: leans, drift } = quality();
       // The card leans back a little against fast scrolling and settles when it stops.
-      const lean = gsap.utils.clamp(-OPENING.leanMaxDeg, OPENING.leanMaxDeg, this.speed * OPENING.leanPerSpeed);
+      const lean = leans ? gsap.utils.clamp(-OPENING.leanMaxDeg, OPENING.leanMaxDeg, this.speed * OPENING.leanPerSpeed) : 0;
       state.lean += (lean - state.lean) * (1 - Math.exp(-dt * 5));
       // At rest it drifts, as if on a breath of air.
-      const resting = now - this.lastScrollAt > 900 && !this.open;
+      const resting = drift && now - this.lastScrollAt > 900 && !this.open;
       state.floatAmount += ((resting ? 1 : 0) - state.floatAmount) * (1 - Math.exp(-dt * 1.5));
       state.float = Math.sin(time * 1.1) * 3 * state.floatAmount;
       if (Math.abs(state.lean) > 0.005 || state.floatAmount > 0.005) this.renderRig();
@@ -329,19 +347,7 @@ export class OpeningScene {
         final: { x: (box?.left ?? cx - w / 2) + w / 2, y: finalTop + sheetH / 2, s: 1, rx: 0, ry: 0, rz: 0 },
       },
     };
-    this.layoutRibbon();
-  }
-
-  private layoutRibbon() {
-    const { ribbon, w, sheetH } = this.layout!;
-    const { rw } = ribbon;
-    this.root.style.setProperty('--rw', `${rw}px`);
-    this.root.style.setProperty('--band-y', `${ribbon.bandY}px`);
-    this.el.bow.setAttribute('viewBox', `0 0 ${w} ${sheetH}`);
-    const knot = this.el.knot.querySelector('rect')!;
-    for (const [name, value] of [['x', -rw * 0.62], ['y', -rw * 0.55], ['width', rw * 1.24], ['height', rw * 1.1], ['rx', rw * 0.32]] as const) {
-      knot.setAttribute(name, value.toFixed(1));
-    }
+    this.ribbon.layout({ cardWidth: w, geometry: this.layout.ribbon, displayScale: heldS, profile: quality() });
   }
 
   /* ---------- Drawing ---------- */
@@ -424,41 +430,14 @@ export class OpeningScene {
   }
 
   private renderRibbon() {
-    const { ribbon, pull: pullLength, dropY, w } = this.layout!;
-    const { pull: pullShare, bow, fall } = this.state;
-    const { rw, knot, loopLength, loopAngles, tailFixed, tailPulled, pullDirection } = ribbon;
-    const pull = pullShare * pullLength;
+    const { pull: pullLength, dropY, w } = this.layout!;
+    const { pull, bow, fall } = this.state;
+    const { dropAwayFrom, dropAwayTurn } = RIBBON.motion;
     // Tension builds over the first part of the pull; after that the knot has slipped.
-    const tension = clamp01(pullShare / 0.55);
-
-    // Pulling a tail draws its loop in through the knot; the other loop only tightens a little.
-    const loops: Array<[string, number, number]> = [
-      ['L', loopLength * (1 - 0.18 * tension) * bow, loopAngles[0] - 8 * tension],
-      ['R', loopLength * (1 - 0.82 * tension) * bow, loopAngles[1] + 14 * tension],
-    ];
-    for (const [side, length, angle] of loops) {
-      const { outer, inner } = loopPaths(length, rw);
-      this.el[`loop${side}`].setAttribute('transform', `translate(${knot[0]} ${knot[1]}) rotate(${angle.toFixed(2)})`);
-      this.el[`loop${side}Outer`].setAttribute('d', outer);
-      this.el[`loop${side}Inner`].setAttribute('d', inner);
-    }
-
-    const end: Vec = [tailPulled[0] + pullDirection[0] * pull, tailPulled[1] + pullDirection[1] * pull];
-    const start: Vec = [knot[0] + rw * 0.2, knot[1] + rw * 0.3];
-    this.el.tailPulled.setAttribute('d', tailPath(start, end, rw * 1.4 * (1 - tension), rw));
-    // As the knot slips, the other tail is drawn up into it.
-    const fixedEnd: Vec = [
-      knot[0] + (tailFixed[0] - knot[0]) * (0.3 + 0.7 * bow),
-      knot[1] + (tailFixed[1] - knot[1]) * (0.3 + 0.7 * bow),
-    ];
-    this.el.tailFixed.setAttribute('d', tailPath([knot[0] - rw * 0.2, knot[1] + rw * 0.3], fixedEnd, -rw * 1.2, rw));
-    this.el.knot.setAttribute(
-      'transform',
-      `translate(${knot[0]} ${knot[1]}) rotate(${(-8 + 10 * tension).toFixed(2)}) scale(${(0.4 + 0.6 * bow).toFixed(3)})`,
-    );
-
-    const drop = easeIn(fall);
-    gsap.set(this.el.ribbon, { y: drop * dropY, x: fall * w * 0.1, rotation: fall * 16, autoAlpha: fall >= 1 ? 0 : 1 });
+    this.ribbon.setDrive({ tension: clamp01(pull / 0.55), slip: 1 - bow, fall, pull: pull * pullLength });
+    // The fabric slides off the card on its own; then the whole ribbon drops away out of frame.
+    const away = easeIn(span(fall, dropAwayFrom, 1));
+    gsap.set(this.el.ribbon, { y: away * dropY, x: away * w * 0.06, rotation: away * dropAwayTurn, autoAlpha: fall >= 1 ? 0 : 1 });
   }
 
   private renderFlap() {

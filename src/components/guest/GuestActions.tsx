@@ -3,8 +3,7 @@ import type { WeddingConfig } from '../../config/types';
 import { usePrefersReducedMotion } from '../../hooks/useMediaQuery';
 import { gsap, useGSAP } from '../../lib/gsap';
 import { mapsUrl } from '../../lib/links';
-import { EnvelopeIcon, HeartIcon, MapPinIcon } from '../ui/icons';
-import { BlessingsDialog } from './BlessingsDialog';
+import { EnvelopeIcon, MapPinIcon } from '../ui/icons';
 import styles from './GuestActions.module.css';
 import { RsvpDialog } from './RsvpDialog';
 import { SoundToggle } from './SoundToggle';
@@ -15,12 +14,11 @@ interface GuestActionsProps {
   visible: boolean;
 }
 
-/** RSVP, blessings, directions and the sound switch, within thumb's reach at the bottom of the screen. */
+/** RSVP, directions and the sound switch, within thumb's reach at the bottom of the screen. */
 export function GuestActions({ wedding, visible }: GuestActionsProps) {
-  const [dialog, setDialog] = useState<'rsvp' | 'blessings' | null>(null);
+  const [rsvpOpen, setRsvpOpen] = useState(false);
   const barRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
-  const close = () => setDialog(null);
 
   // Rises in once the card is open; slips away again if the guest scrolls back into the opening.
   useGSAP(
@@ -41,11 +39,8 @@ export function GuestActions({ wedding, visible }: GuestActionsProps) {
   return (
     <>
       <nav ref={barRef} className={styles.bar} aria-label="Reply to the invitation">
-        <button type="button" className={styles.action} data-primary onClick={() => setDialog('rsvp')} aria-haspopup="dialog">
+        <button type="button" className={styles.action} data-primary onClick={() => setRsvpOpen(true)} aria-haspopup="dialog">
           <EnvelopeIcon /> RSVP
-        </button>
-        <button type="button" className={styles.action} onClick={() => setDialog('blessings')} aria-haspopup="dialog">
-          <HeartIcon /> Blessings
         </button>
         <a className={styles.action} href={mapsUrl(wedding.venue)} target="_blank" rel="noopener noreferrer">
           <MapPinIcon /> Directions
@@ -53,8 +48,7 @@ export function GuestActions({ wedding, visible }: GuestActionsProps) {
         </a>
         <SoundToggle inline />
       </nav>
-      <RsvpDialog wedding={wedding} open={dialog === 'rsvp'} onClose={close} />
-      <BlessingsDialog wedding={wedding} open={dialog === 'blessings'} onClose={close} />
+      <RsvpDialog wedding={wedding} open={rsvpOpen} onClose={() => setRsvpOpen(false)} />
     </>
   );
 }

@@ -90,45 +90,8 @@ export function Opening({ wedding, targetRef, pageRef, onOpenChange }: OpeningPr
           </div>
 
           <div className={styles.ribbon} data-part="ribbon">
-            <div className={styles.band} />
-            <svg className={styles.bow} data-part="bow" overflow="visible">
-              <defs>
-                <linearGradient id={`${svgId}-loop`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#93613a" />
-                  <stop offset="0.3" stopColor="#d4a273" />
-                  <stop offset="0.47" stopColor="#f1d2ae" />
-                  <stop offset="0.68" stopColor="#c79163" />
-                  <stop offset="1" stopColor="#8a5a33" />
-                </linearGradient>
-                <linearGradient id={`${svgId}-tail`} x1="0" y1="0" x2="1" y2="0.35">
-                  <stop offset="0" stopColor="#9c6a3f" />
-                  <stop offset="0.4" stopColor="#e3b98f" />
-                  <stop offset="0.6" stopColor="#c79163" />
-                  <stop offset="1" stopColor="#8f5f37" />
-                </linearGradient>
-                <filter id={`${svgId}-shadow`} x="-20%" y="-20%" width="140%" height="140%">
-                  <feColorMatrix in="SourceAlpha" values="0 0 0 0 0.24  0 0 0 0 0.15  0 0 0 0 0.06  0 0 0 0.32 0" />
-                  <feGaussianBlur stdDeviation="1.6" />
-                  <feOffset dx="1.2" dy="2.6" />
-                </filter>
-              </defs>
-              <use href={`#${svgId}-bow`} filter={`url(#${svgId}-shadow)`} />
-              <g id={`${svgId}-bow`}>
-                <path data-part="tailFixed" fill={`url(#${svgId}-tail)`} />
-                <path data-part="tailPulled" fill={`url(#${svgId}-tail)`} />
-                <g data-part="loopL">
-                  <path data-part="loopLOuter" fill={`url(#${svgId}-loop)`} className={styles.loopEdge} />
-                  <path data-part="loopLInner" className={styles.loopInner} />
-                </g>
-                <g data-part="loopR">
-                  <path data-part="loopROuter" fill={`url(#${svgId}-loop)`} className={styles.loopEdge} />
-                  <path data-part="loopRInner" className={styles.loopInner} />
-                </g>
-                <g data-part="knot">
-                  <rect className={styles.knot} fill={`url(#${svgId}-loop)`} />
-                </g>
-              </g>
-            </svg>
+            {/* Satin ribbon, drawn and animated by ribbon/SatinRibbon.ts */}
+            <canvas className={styles.ribbonCanvas} data-part="ribbonCanvas" />
           </div>
         </div>
 
