@@ -48,7 +48,8 @@ export const wedding: WeddingConfig = {
   },
 
   guestbook: {
-    endpoint: '', // TODO: paste the Apps Script /exec URL once deployed (google-apps-script/README.md).
+    // Google Apps Script web app (google-apps-script/README.md).
+    endpoint: 'https://script.google.com/macros/s/AKfycbwfFnvBatRQncUAsxwM8Xq8NFtakyVJjTKcCYrLdHRMkN1Mow__yBC8q3S3HdafUSBA/exec',
     maxGuests: 6,
   },
 

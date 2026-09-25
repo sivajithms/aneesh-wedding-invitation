@@ -7,6 +7,13 @@
  *   Blessings  one row per blessing
  */
 
+/**
+ * Only needed if this script was created at script.google.com rather than from the sheet's
+ * Extensions → Apps Script menu: paste the sheet's ID here (the long part of its URL between
+ * /d/ and /edit). Leave empty for a script opened from the sheet.
+ */
+const SHEET_ID = '';
+
 const TABS = {
   rsvp: { name: 'RSVPs', headers: ['Updated', 'Name', 'Reply', 'Guests', 'Reply ID'] },
   blessing: { name: 'Blessings', headers: ['Received', 'Name', 'Blessing'] },
@@ -59,7 +66,8 @@ function saveBlessing(p) {
 }
 
 function tab({ name, headers }) {
-  const book = SpreadsheetApp.getActiveSpreadsheet();
+  const book = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!book) throw new Error('No sheet: open this script from the sheet (Extensions → Apps Script) or set SHEET_ID.');
   let sheet = book.getSheetByName(name);
   if (!sheet) {
     sheet = book.insertSheet(name);
