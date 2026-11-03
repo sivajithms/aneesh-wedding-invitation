@@ -1,0 +1,235 @@
+.wrapContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 25;
+  border-radius: inherit;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.wrapCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.wrapCanvas:active {
+  cursor: grabbing;
+}
+
+/* -------------------------------------------------------------
+   HTML Gold Pull Tab with Stretchy Cloth Connection
+   ------------------------------------------------------------- */
+.tabWrapper {
+  position: absolute;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+  z-index: 35;
+  touch-action: none;
+}
+
+.tabWrapper:active {
+  cursor: grabbing;
+}
+
+/* Stretchy Cloth Fold */
+.clothFold {
+  width: 14px;
+  height: 26px;
+  background: linear-gradient(90deg, rgba(136, 31, 41, 0.95), rgba(255, 250, 240, 0.9));
+  border-radius: 4px 0 0 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+  margin-right: -2px;
+}
+
+/* The Gold Metallic PULL Button */
+.wrapTab {
+  appearance: none;
+  border: 1px solid rgba(145, 105, 35, 0.85);
+  border-radius: 4px 7px 7px 4px;
+  background: linear-gradient(135deg, #fae298 0%, #d4aa50 48%, #9f7524 100%);
+  color: #3b280a;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  box-shadow: 0 4px 14px rgba(45, 25, 5, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wrapTab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(45, 25, 5, 0.45);
+}
+
+.wrapTab:active {
+  cursor: grabbing;
+  transform: scale(0.96);
+}
+
+/* Pulsing Hand Cue pointing left */
+.handCue {
+  position: absolute;
+  top: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 252, 245, 0.95);
+  border: 1.5px solid rgba(165, 130, 75, 0.65);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(40, 25, 5, 0.25);
+  animation: nudgeLeft 1.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.handIcon {
+  width: 18px;
+  height: 18px;
+  transform: rotate(-90deg);
+}
+
+@keyframes nudgeLeft {
+  0% {
+    transform: translateX(-50%) translateX(0);
+  }
+  100% {
+    transform: translateX(-50%) translateX(-12px);
+  }
+}
+
+/* -------------------------------------------------------------
+   Silky Fabric Fall-Off Animation (Both Pieces Fall DOWNWARDS)
+   ------------------------------------------------------------- */
+.wrapTopPiece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 48.5%;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 45% 35%, #881f29 0%, #751821 55%, #520e15 100%);
+  box-shadow: 0 16px 40px rgba(45, 20, 10, 0.45);
+  animation: fallTopPiece 0.95s cubic-bezier(0.33, 0, 0.67, 1) forwards;
+  pointer-events: none;
+  z-index: 30;
+  will-change: transform, opacity;
+}
+
+.wrapBottomPiece {
+  position: absolute;
+  top: 48.5%;
+  left: 0;
+  width: 100%;
+  height: 51.5%;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 65%, #881f29 0%, #751821 55%, #520e15 100%);
+  box-shadow: 0 18px 45px rgba(45, 20, 10, 0.55);
+  animation: fallBottomPiece 0.95s cubic-bezier(0.33, 0, 0.67, 1) forwards;
+  pointer-events: none;
+  z-index: 30;
+  will-change: transform, opacity;
+}
+
+/* Fabric Diamond Lattice on the falling pieces */
+.wrapFabricPattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(45deg, rgba(235, 205, 135, 0.28) 1.2px, transparent 1.2px),
+    linear-gradient(-45deg, rgba(235, 205, 135, 0.28) 1.2px, transparent 1.2px);
+  background-size: 38px 38px;
+}
+
+/* Jagged Slit Edge on Falling Pieces */
+.wrapTopTearEdge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 252, 245, 0.95) 0px,
+    rgba(255, 252, 245, 0.95) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.wrapBottomTearEdge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 252, 245, 0.95) 0px,
+    rgba(255, 252, 245, 0.95) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  filter: drop-shadow(0 -2px 3px rgba(0, 0, 0, 0.35));
+}
+
+/* Top half peels down and slides downwards off the card */
+@keyframes fallTopPiece {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(40px) rotate(-1.8deg) scale(1.01);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(220px) rotate(2.2deg) scale(0.98);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(580px) rotate(-3.5deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+/* Bottom half drops straight downwards off the card */
+@keyframes fallBottomPiece {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(50px) rotate(2.2deg) scale(1.01);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(240px) rotate(-2deg) scale(0.98);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(620px) rotate(4deg) scale(0.92);
+    opacity: 0;
+  }
+}

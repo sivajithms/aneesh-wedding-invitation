@@ -1,0 +1,561 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* ↺ UNWRAP IT AGAIN Replay Button above card (matching 3rd pic) */
+.unwrapAgainBtn {
+  position: absolute;
+  top: -46px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0;
+  white-space: nowrap;
+  background: rgba(255, 252, 245, 0.92);
+  border: 1px solid rgba(185, 150, 90, 0.45);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: var(--font-serif, serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #6b5535;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(45, 25, 5, 0.1);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+}
+
+.unwrapAgainBtn:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(45, 25, 5, 0.18);
+  border-color: rgba(185, 150, 90, 0.75);
+}
+
+/* -------------------------------------------------------------
+   The 3D Tilt Card (Matching Picture 3)
+   ------------------------------------------------------------- */
+.cardFloral {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.6) 0%, rgba(250, 244, 232, 0.95) 75%),
+    #f8f2e4;
+  border-radius: 14px;
+  box-shadow:
+    0 24px 65px rgba(45, 25, 10, 0.28),
+    0 4px 12px rgba(45, 25, 10, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  user-select: none;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.15s ease-out, box-shadow 0.25s ease-out;
+  will-change: transform;
+}
+
+.cardFloral:hover {
+  box-shadow:
+    0 32px 80px rgba(45, 25, 10, 0.35),
+    0 6px 16px rgba(45, 25, 10, 0.15);
+}
+
+/* Dynamic Specular Gold Foil Reflection on Hover */
+.foilGlare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 245, 215, 0.38) 0%,
+    rgba(255, 240, 195, 0.12) 35%,
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 6;
+}
+
+.cardFloral:hover .foilGlare {
+  opacity: 1;
+}
+
+/* Gold foil sheen sweep animation */
+.sheen {
+  position: absolute;
+  inset: -100%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 245, 200, 0.5) 48%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 245, 200, 0.5) 52%,
+    transparent 65%
+  );
+  transform: translate(-100%, -100%);
+  pointer-events: none;
+  z-index: 7;
+}
+
+.sheen.go {
+  animation: sheenSweep 2.2s cubic-bezier(0.2, 0.8, 0.25, 1) 0.3s;
+}
+
+@keyframes sheenSweep {
+  0% {
+    transform: translate(-100%, -100%);
+  }
+  100% {
+    transform: translate(100%, 100%);
+  }
+}
+
+/* Textured Paper Inner Border */
+.innerBorder {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(195, 160, 100, 0.38);
+  border-radius: 10px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Vertical Spaced Serif Text: S A V E   O U R   D A T E */
+.verticalSaveDate {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-serif, 'Cinzel', serif);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(165, 130, 75, 0.6);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.spacer {
+  height: 14px;
+}
+
+/* Botanical Magnolia Illustrations in Corners */
+.magnoliaTL {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+.magnoliaML {
+  position: absolute;
+  top: 40%;
+  left: -5px;
+  width: 90px;
+  height: 110px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.75;
+}
+
+.magnoliaBL {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.8;
+}
+
+.magnoliaBR {
+  position: absolute;
+  bottom: -15px;
+  right: -10px;
+  width: 180px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+/* Main Card Content */
+.cardContent {
+  position: relative;
+  z-index: 5;
+  padding: 1.5rem 1.6rem;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Arabic Bismillah */
+.bismillah {
+  font-family: 'Amiri', serif;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  color: #a8823b;
+  margin: 0.2rem 0 0.6rem 0;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.8));
+}
+
+/* Parents Section */
+.parentsSection {
+  margin: 0.25rem 0;
+}
+
+.parentNames {
+  font-family: var(--font-serif, 'Cinzel', Georgia, serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2b2216;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.parentHouse {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.65rem;
+  color: #655545;
+  margin: 1px 0 0 0;
+}
+
+.brideParents {
+  font-family: var(--font-serif, 'Cinzel', Georgia, serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2b2216;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* Cordial Invitation Text */
+.cordialText {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.65rem;
+  line-height: 1.45;
+  color: #655545;
+  margin: 0.5rem 0 0.3rem 0;
+}
+
+/* Couple Names in Luxurious Script Typography */
+.namesBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.4rem 0 0.6rem 0;
+}
+
+.groomName,
+.brideName {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.1rem;
+  line-height: 1.05;
+  font-weight: 700;
+  font-style: italic;
+  color: #2b2216;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.joinerAmp {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  line-height: 0.85;
+  color: #c9a456;
+  margin: -0.1rem 0;
+}
+
+/* Bottom 2-Column Grid: QR Code + Reception Time */
+.bottomGrid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 0.85rem;
+  width: 85%;
+}
+
+.qrBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.qrBlock:hover {
+  transform: scale(1.06);
+}
+
+.qrHeader {
+  margin-bottom: 2px;
+}
+
+.qrLabel {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.55rem;
+  color: #8c7a65;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.qrBox {
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  border: 1px solid rgba(165, 130, 75, 0.55);
+  border-radius: 6px;
+  padding: 3px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(45, 25, 5, 0.1);
+}
+
+.qrSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.receptionSchedule {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  border-left: 1px solid rgba(165, 130, 75, 0.4);
+  padding-left: 12px;
+}
+
+.receptionTag {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8c7a65;
+}
+
+.receptionTime {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.78rem;
+  color: #2b2216;
+  font-weight: 700;
+  margin: 1px 0;
+}
+
+.receptionDateRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.dateNumber {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #2b2216;
+}
+
+.dateDay {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.6rem;
+  color: #655545;
+  letter-spacing: 0.05em;
+}
+
+/* Venue Section */
+.venueSection {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.venueName {
+  font-family: var(--font-serif, 'Cinzel', Georgia, serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #2b2216;
+}
+
+.venueLoc {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.58rem;
+  color: #705e48;
+  letter-spacing: 0.08em;
+  margin-top: 1px;
+}
+
+/* Contact Section */
+.contactSection {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.62rem;
+}
+
+.contactLabel {
+  color: #806e58;
+}
+
+.contactBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  color: #2b2216;
+  position: relative;
+}
+
+.contactBtn:hover strong {
+  color: #a8823b;
+  text-decoration: underline;
+}
+
+.copiedBadge {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4a320c;
+  color: #fffdf8;
+  font-size: 0.5rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Hotspots */
+.hotspotMap {
+  position: absolute;
+  bottom: 8%;
+  left: 10%;
+  width: 80%;
+  height: 22%;
+  z-index: 8;
+  cursor: pointer;
+}
+
+.hotspotRsvp {
+  position: absolute;
+  top: 36%;
+  left: 15%;
+  width: 70%;
+  height: 18%;
+  background: none;
+  border: none;
+  z-index: 8;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------
+   Action Nav & Buttons Below Card (Matching 3rd Pic)
+   ------------------------------------------------------------- */
+.actionNav {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.primaryAction {
+  background: #7a5f2c;
+  color: #fffdf8;
+  border: 1px solid rgba(122, 95, 44, 0.9);
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: var(--font-serif, serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(45, 25, 5, 0.28);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+  background: #8e7035;
+  box-shadow: 0 6px 20px rgba(45, 25, 5, 0.38);
+}
+
+.secondaryAction {
+  background: #fffdf8;
+  color: #2b2216;
+  border: 1px solid rgba(185, 150, 90, 0.45);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: var(--font-serif, serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(45, 25, 5, 0.1);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.secondaryAction:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: rgba(185, 150, 90, 0.75);
+  box-shadow: 0 6px 18px rgba(45, 25, 5, 0.18);
+}
+
+.moreDetailsBtn {
+  position: absolute;
+  top: calc(100% + 68px);
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: #705e48;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.moreDetailsBtn:hover {
+  color: #2b2216;
+  transform: translateY(1px);
+}

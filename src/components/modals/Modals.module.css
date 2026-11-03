@@ -1,0 +1,283 @@
+.rsvp {
+  width: min(400px, calc(100vw - 24px));
+  padding: 0;
+  border: 1px solid rgba(155, 122, 60, 0.45);
+  border-radius: 14px;
+  background: var(--grain), #fffaf0;
+  color: var(--ink);
+  box-shadow: 0 24px 70px rgba(40, 25, 5, 0.35);
+  margin: auto;
+}
+
+.rsvp::backdrop {
+  background: rgba(40, 28, 10, 0.42);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.rsvp[open] {
+  animation: rsvpIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes rsvpIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+.pane {
+  padding: 30px 22px 24px;
+  display: grid;
+  gap: 14px;
+  text-align: center;
+}
+
+.rsvp h2 {
+  margin: 0;
+  font: italic 400 27px/1.15 Georgia, serif;
+  color: #5a4524;
+}
+
+.sub {
+  margin: -6px 0 6px;
+  font: 12px/1.4 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a7550;
+}
+
+.pane p {
+  margin: 0;
+  font: 16px/1.5 Georgia, serif;
+}
+
+.answer {
+  appearance: none;
+  display: block;
+  width: 100%;
+  padding: 17px 12px;
+  border: 1px solid rgba(155, 122, 60, 0.5);
+  border-radius: 12px;
+  background: #fffdf8;
+  color: var(--ink);
+  font: 17px/1.2 Georgia, serif;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.1s;
+}
+
+.answer:active {
+  transform: scale(0.98);
+}
+
+.answer.yes {
+  background: #7c5f2c;
+  border-color: #7c5f2c;
+  color: #fff8ea;
+}
+
+.msg {
+  margin: 0;
+  min-height: 1.2em;
+  font: 13px/1.4 system-ui, -apple-system, sans-serif;
+  color: #9a3a2a;
+}
+
+.ok {
+  appearance: none;
+  justify-self: center;
+  margin-top: 4px;
+  padding: 13px 26px;
+  border: 1px solid #7c5f2c;
+  border-radius: 999px;
+  background: #7c5f2c;
+  color: #fff8ea;
+  font: 13px/1 Georgia, serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 4px 0 2px;
+}
+
+.stepper button {
+  appearance: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(155, 122, 60, 0.5);
+  background: #fffdf8;
+  color: #5a4524;
+  font: 28px/1 Georgia, serif;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stepper button:active {
+  transform: scale(0.94);
+}
+
+.stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.stepper output {
+  min-width: 2.2ch;
+  font: 400 52px/1 Georgia, serif;
+  color: #5a4524;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.countLabel {
+  margin-top: -8px !important;
+  font: 13px/1.4 system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a7550;
+}
+
+.back {
+  appearance: none;
+  justify-self: center;
+  padding: 6px 10px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: #8a7550;
+  font: 12px/1 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background: none;
+  color: #8a7550;
+  font: 22px/1 Georgia, serif;
+  cursor: pointer;
+}
+
+/* Blessings / Wish Dialog */
+.wish textarea {
+  width: 100%;
+  min-height: 118px;
+  resize: none;
+  padding: 6px 12px 8px;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  border-radius: 8px;
+  color: #4a3820;
+  font: italic 17px/28px Georgia, serif;
+  background:
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 27px, rgba(155, 122, 60, 0.22) 27px 28px) 0 5px,
+    #fffdf7;
+}
+
+.wish input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  border-radius: 8px;
+  background: #fffdf7;
+  color: #4a3820;
+  font: 16px/1.2 Georgia, serif;
+}
+
+.wish input:focus-visible,
+.wish textarea:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -8px;
+}
+
+.count {
+  margin: 0 2px 0 auto;
+  text-align: right;
+  font: 11px/1 system-ui, -apple-system, sans-serif;
+  color: #a8946e;
+}
+
+.emojiBtn {
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  background: #fffdf7;
+  color: #9b7a3c;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+
+.emojiBtn svg {
+  width: 19px;
+  height: 19px;
+}
+
+.emojiBtn:hover {
+  background: #fff3dc;
+  transform: scale(1.06);
+}
+
+.emojiGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  padding: 8px;
+  background: #fffdf8;
+  border: 1px solid rgba(155, 122, 60, 0.3);
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.emojiGrid button {
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.emojiGrid button:hover {
+  background: #f7ecd6;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .emojiBtn {
+    display: none;
+  }
+}
+

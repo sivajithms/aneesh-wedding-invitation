@@ -1,0 +1,518 @@
+.details {
+  position: relative;
+  padding: 64px 16px calc(56px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(255, 253, 248, 0.7) 0, rgba(255, 253, 248, 0) 60%),
+    var(--grain),
+    #e9e1d2;
+  color: var(--ink);
+  text-align: center;
+}
+
+.details > section {
+  position: relative;
+  width: min(560px, 100%);
+  margin: 0 auto;
+  padding: 42px 22px 38px;
+  border: 1px solid rgba(155, 122, 60, 0.26);
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(255, 253, 246, 0.9), rgba(255, 253, 246, 0) 70%),
+    var(--grain),
+    #f5efe2;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 12px 30px rgba(60, 40, 10, 0.09),
+    0 2px 4px rgba(60, 40, 10, 0.05);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.details > section + section {
+  margin-top: 26px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font: 11px/1.4 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.details h2 {
+  margin: 0;
+  font: italic 400 clamp(28px, 7vw, 38px) / 1.15 Georgia, serif;
+  color: #5a4524;
+}
+
+.details p {
+  margin: 10px 0 0;
+  font: 16px/1.55 Georgia, serif;
+}
+
+.greeting {
+  margin: 0 0 40px;
+  font: 400 clamp(34px, 9vw, 46px) / 1.2 'Great Vibes', 'Snell Roundhand', cursive;
+  color: #5a4524;
+  text-wrap: balance;
+}
+
+/* Families Grid */
+.families {
+  display: grid;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.families .fam strong {
+  display: block;
+  font: 600 17px/1.35 Georgia, serif;
+  color: #5a4524;
+}
+
+.families .fam span {
+  display: block;
+  margin-top: 4px;
+  font: 14px/1.5 Georgia, serif;
+  color: #7d6a48;
+}
+
+.families .amp {
+  font: italic 30px/1 Georgia, serif;
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+/* Dua Section */
+.duaAr {
+  margin: 26px 0 0;
+  font: 400 clamp(26px, 7.4vw, 38px) / 1.9 Amiri, 'Noto Naskh Arabic', 'Geeza Pro', 'Traditional Arabic', serif;
+  color: #8a6a32;
+  background: linear-gradient(100deg, #7c5f2c 0, #c9a24e 45%, #e3c682 52%, #9b7a3c 70%, #7c5f2c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-wrap: balance;
+}
+
+.duaTr {
+  margin-top: 14px !important;
+  font: italic 16px/1.6 Georgia, serif !important;
+  color: #7d6a48;
+}
+
+.duaEn {
+  margin-top: 10px !important;
+  font-size: 17px !important;
+}
+
+/* Timeline */
+.timeline {
+  list-style: none;
+  margin: 26px auto 0;
+  padding: 0;
+  max-width: 400px;
+  text-align: left;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  bottom: 30px;
+  width: 1px;
+  background: linear-gradient(rgba(155, 122, 60, 0.6), rgba(155, 122, 60, 0.15));
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 26px 46px;
+}
+
+.timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #f5efe2;
+  border: 1.5px solid #9b7a3c;
+  box-shadow: 0 0 0 4px rgba(201, 162, 78, 0.14);
+}
+
+.timeline .tlTime {
+  font: 12px/1.3 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.timeline strong {
+  display: block;
+  margin-top: 4px;
+  font: italic 400 26px/1.15 Georgia, serif;
+  color: #5a4524;
+}
+
+.timeline .tlPlace {
+  display: block;
+  margin-top: 4px;
+  font: 14px/1.5 Georgia, serif;
+  color: #7d6a48;
+}
+
+.timeline .btn {
+  margin-top: 12px;
+  padding: 10px 14px;
+  font-size: 11px;
+}
+
+/* 3D Flip Countdown Clock */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 2.5vw, 14px);
+  margin-top: 26px;
+}
+
+.countdown > div {
+  flex: 1 1 0;
+  max-width: 112px;
+  padding: 16px 4px 12px;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  border-radius: 12px;
+  background: rgba(255, 251, 242, 0.6);
+  box-shadow: 0 6px 18px rgba(60, 40, 10, 0.07);
+}
+
+.countdown b {
+  position: relative;
+  display: block;
+  height: 1.25em;
+  margin: 0 8%;
+  font: 400 clamp(28px, 8vw, 42px) / 1.25em Georgia, serif;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: #5a4524;
+  perspective: 220px;
+}
+
+.countdown .half {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: #f8f2e5;
+}
+
+.countdown .top {
+  top: 0;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(#f3ecdd, #f8f2e5);
+}
+
+.countdown .bottom {
+  bottom: 0;
+  border-radius: 0 0 6px 6px;
+}
+
+.countdown .half i {
+  display: block;
+  height: 200%;
+  font-style: normal;
+  text-align: center;
+}
+
+.countdown .bottom i {
+  transform: translateY(-50%);
+}
+
+.countdown .flipTop {
+  z-index: 2;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+}
+
+.countdown .flipBottom {
+  z-index: 2;
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+  backface-visibility: hidden;
+}
+
+.countdown b:not(.flipping) .flipBottom,
+.countdown b:not(.flipping) .flipTop {
+  display: none;
+}
+
+.countdown b.flipping .flipTop {
+  animation: flipTop 0.28s ease-in forwards;
+}
+
+.countdown b.flipping .flipBottom {
+  animation: flipBottom 0.28s ease-out 0.28s forwards;
+}
+
+.countdown b::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  z-index: 3;
+  height: 1px;
+  background: rgba(90, 69, 36, 0.16);
+}
+
+.countdown > div > span {
+  display: block;
+  margin-top: 8px;
+  font: 10px/1 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a7550;
+}
+
+/* Reply Status & Badge */
+.replyStatus {
+  margin-top: 14px !important;
+}
+
+.replyStatus b {
+  color: #5a4524;
+}
+
+.replyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  background: rgba(255, 251, 242, 0.8);
+  font: 12px/1 system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5a4524;
+}
+
+.replyBadge i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-yes);
+}
+
+.replyBadge.no i {
+  background: var(--status-no);
+}
+
+/* Button Row */
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(155, 122, 60, 0.55);
+  background: rgba(255, 251, 242, 0.86);
+  color: var(--ink);
+  font: 13px/1 Georgia, serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(60, 40, 10, 0.12);
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #fffaf0;
+  transform: translateY(-1px);
+}
+
+.btn.primary {
+  background: #7c5f2c;
+  color: #fff8ea;
+  border-color: #7c5f2c;
+}
+
+.btn.primary:hover {
+  background: #6d5226;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* Venue Card */
+.venueCard {
+  margin-top: 24px;
+  border: 1px solid rgba(155, 122, 60, 0.35);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fffaf0;
+  box-shadow: 0 10px 30px rgba(60, 40, 10, 0.1);
+}
+
+.venueCard iframe {
+  display: block;
+  width: 100%;
+  height: 220px;
+  border: 0;
+  filter: sepia(0.35) saturate(0.8) contrast(0.95);
+  background: #efe7d6;
+}
+
+.venueCard .addr {
+  padding: 20px 18px 22px;
+}
+
+.venueCard .addr strong {
+  display: block;
+  font: 600 18px/1.3 Georgia, serif;
+  letter-spacing: 0.04em;
+  color: #5a4524;
+}
+
+.venueCard .addr span {
+  display: block;
+  margin-top: 4px;
+  font: 14px/1.5 Georgia, serif;
+  color: #7d6a48;
+}
+
+.venueCard .btns {
+  margin-top: 16px;
+}
+
+/* Geolocation Trip */
+.trip {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(155, 122, 60, 0.35);
+}
+
+.trip .big {
+  font: 400 clamp(24px, 6.5vw, 30px) / 1.2 Georgia, serif;
+  color: #5a4524;
+  font-size: 20px;
+}
+
+.trip .small {
+  margin-top: 6px;
+  font: 14px/1.5 Georgia, serif;
+  color: #7d6a48;
+}
+
+.trip .msgErr {
+  color: var(--status-err);
+}
+
+/* Footer Signoff */
+.sign {
+  margin-top: 72px;
+  font: italic 20px/1.4 Georgia, serif;
+  color: #7d6a48;
+}
+
+.endSeal {
+  position: relative;
+  width: 66px;
+  aspect-ratio: 1;
+  margin: 24px auto 8px;
+  border-radius: 47% 53% 50% 50% / 52% 48% 52% 48%;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 38%),
+    radial-gradient(circle at 50% 50%, #a8343a 0 52%, #8e252c 62%, #7a1d24 100%);
+  box-shadow:
+    0 2px 3px rgba(60, 10, 10, 0.35),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.25),
+    0 6px 14px rgba(60, 10, 10, 0.18);
+  display: grid;
+  place-items: center;
+  color: rgba(255, 225, 200, 0.85);
+  font: italic 600 19px/1 Georgia, serif;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(-46px) scale(1.55);
+}
+
+.endSeal::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  z-index: -1;
+  border-radius: 52% 48% 55% 45% / 46% 56% 44% 54%;
+  background: radial-gradient(circle at 50% 50%, #9a2c33 55%, #7f2027 100%);
+  box-shadow: 0 3px 6px rgba(60, 10, 10, 0.25);
+  opacity: 0;
+  transform: scale(0.55);
+}
+
+.endSeal::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255, 210, 190, 0.25);
+}
+
+.endSeal.pressed {
+  animation: sealPress 0.75s cubic-bezier(0.3, 0.6, 0.3, 1) forwards;
+}
+
+.endSeal.pressed::before {
+  animation: waxSpread 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.36s forwards;
+}
+
+.credit {
+  margin: 30px 0 0;
+  font: 10px/1.6 system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(125, 106, 72, 0.7);
+}
+
+/* Scroll Rise Animation */
+.rise {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.rise.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+

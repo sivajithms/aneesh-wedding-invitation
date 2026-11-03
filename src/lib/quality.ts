@@ -30,7 +30,7 @@ const PROFILES: Record<QualityLevel, QualityProfile> = {
   high: {
     level: 'high',
     maxDpr: 2,
-    ribbonSegments: { band: 28, tail: 13, loop: 16 },
+    ribbonSegments: { band: 36, tail: 14, loop: 18 },
     softShadows: true,
     sheen: true,
     lean: true,
@@ -41,7 +41,7 @@ const PROFILES: Record<QualityLevel, QualityProfile> = {
   medium: {
     level: 'medium',
     maxDpr: 1.5,
-    ribbonSegments: { band: 22, tail: 10, loop: 12 },
+    ribbonSegments: { band: 28, tail: 10, loop: 12 },
     softShadows: false,
     sheen: true,
     lean: true,
@@ -52,7 +52,7 @@ const PROFILES: Record<QualityLevel, QualityProfile> = {
   low: {
     level: 'low',
     maxDpr: 1,
-    ribbonSegments: { band: 16, tail: 8, loop: 9 },
+    ribbonSegments: { band: 20, tail: 8, loop: 9 },
     softShadows: false,
     sheen: true,
     lean: true,

@@ -4,7 +4,7 @@
  * up plays it in reverse. Gaps between chapters are small rests so each moment reads on its own.
  */
 export const OPENING = {
-  screens: 6,
+  screens: 5,
   chapters: {
     /** The wax seal lifts, then drops away. */
     seal: [0, 0.9],
@@ -25,12 +25,12 @@ export const OPENING = {
   total: 10.6,
 
   /** How long a pause (ms) before "Keep scrolling" appears. */
-  idleCueMs: 1600,
+  idleCueMs: 1300,
   /** "Play it for me" glides through the rest of the opening at this many seconds per screen. */
-  autoplaySecondsPerScreen: 1.6,
+  autoplaySecondsPerScreen: 0.6,
   /** Scroll speed (progress per second) that tilts the card back by a degree. */
-  leanPerSpeed: 14,
-  leanMaxDeg: 5,
+  leanPerSpeed: 12,
+  leanMaxDeg: 4,
 
   /** Reduced motion: a cross-fade over this much scroll. */
   reducedScreens: 0.8,
