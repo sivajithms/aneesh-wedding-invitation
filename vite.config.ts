@@ -46,5 +46,8 @@ function invitationMeta(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), invitationMeta()],
+  plugins: [react()],
+  server: {
+    allowedHosts: ['.ngrok-free.dev'],
+  },
 });

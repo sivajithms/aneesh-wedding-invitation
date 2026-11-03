@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { WeddingConfig } from '../../config/types';
 import { usePrefersReducedMotion } from '../../hooks/useMediaQuery';
 import { gsap, useGSAP } from '../../lib/gsap';
+import { storage } from '../../lib/guestbook';
 import { mapsUrl } from '../../lib/links';
 import { EnvelopeIcon, MapPinIcon } from '../ui/icons';
 import styles from './GuestActions.module.css';
@@ -17,8 +18,22 @@ interface GuestActionsProps {
 /** RSVP, directions and the sound switch, within thumb's reach at the bottom of the screen. */
 export function GuestActions({ wedding, visible }: GuestActionsProps) {
   const [rsvpOpen, setRsvpOpen] = useState(false);
+  const [dialogStep, setDialogStep] = useState<'counter' | 'done'>('counter');
   const barRef = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
+  const autoOpenedRef = useRef(false);
+
+  // Auto-pop up when reaching the unfolded card
+  useEffect(() => {
+    if (visible && !autoOpenedRef.current) {
+      const timer = setTimeout(() => {
+        setDialogStep('counter');
+        setRsvpOpen(true);
+        autoOpenedRef.current = true;
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
 
   // Rises in once the card is open; slips away again if the guest scrolls back into the opening.
   useGSAP(
@@ -36,10 +51,16 @@ export function GuestActions({ wedding, visible }: GuestActionsProps) {
     { dependencies: [visible, reducedMotion], scope: barRef },
   );
 
+  const handleOpenRsvp = () => {
+    const hasSaved = Boolean(storage.get('invite-rsvp'));
+    setDialogStep(hasSaved ? 'done' : 'counter');
+    setRsvpOpen(true);
+  };
+
   return (
     <>
       <nav ref={barRef} className={styles.bar} aria-label="Reply to the invitation">
-        <button type="button" className={styles.action} data-primary onClick={() => setRsvpOpen(true)} aria-haspopup="dialog">
+        <button type="button" className={styles.action} data-primary onClick={handleOpenRsvp} aria-haspopup="dialog">
           <EnvelopeIcon /> RSVP
         </button>
         <a className={styles.action} href={mapsUrl(wedding.venue)} target="_blank" rel="noopener noreferrer">
@@ -48,7 +69,12 @@ export function GuestActions({ wedding, visible }: GuestActionsProps) {
         </a>
         <SoundToggle inline />
       </nav>
-      <RsvpDialog wedding={wedding} open={rsvpOpen} onClose={() => setRsvpOpen(false)} />
+      <RsvpDialog
+        wedding={wedding}
+        open={rsvpOpen && visible}
+        onClose={() => setRsvpOpen(false)}
+        initialStep={dialogStep}
+      />
     </>
   );
 }
