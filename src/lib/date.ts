@@ -1,4 +1,4 @@
-import { wedding } from '../config/wedding';
+import { wedding } from '../config/wedding.ts';
 
 const { locale, timeZone, utcOffset } = wedding;
 
