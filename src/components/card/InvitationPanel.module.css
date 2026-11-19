@@ -93,11 +93,25 @@
   background: var(--color-tan);
 }
 
+.detailsWithTime {
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  width: min(100%, 28em);
+}
+
+.detailsWithTime::after {
+  content: '';
+  grid-column: 4;
+  grid-row: 1;
+  background: var(--color-tan);
+}
+
 .when,
-.where {
+.where,
+.time {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   grid-row: 1;
 }
 
@@ -105,11 +119,24 @@
   grid-column: 1;
 }
 
+.detailsWithTime .when {
+  justify-content: center;
+}
+
 .where {
   grid-column: 3;
 }
 
-.when time {
+.detailsWithTime .where {
+  justify-content: center;
+}
+
+.detailsWithTime .time {
+  grid-column: 5;
+  justify-content: center;
+}
+
+.when > time:first-child {
   display: contents;
 }
 
@@ -123,18 +150,39 @@
   font-family: var(--font-condensed);
   font-size: clamp(2.2rem, 8cqi, 3.2rem);
   font-weight: 500;
-  line-height: 1.05;
+  line-height: 1;
+  margin-bottom: 0.2em;
   color: var(--color-tan-deep);
 }
 
+.time {
+  font-family: var(--font-condensed);
+  font-size: clamp(1.4rem, 5.2cqi, 2rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--color-tan-deep);
+}
+
+.timeLabel {
+  margin-bottom: 0.35em;
+  font-family: var(--font-sans);
+  font-size: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.clock,
 .pin {
-  font-size: clamp(2rem, 7cqi, 2.8rem);
+  font-size: clamp(2.2rem, 8cqi, 3.2rem);
   margin-bottom: 0.2em;
   color: var(--color-tan);
 }
 
 .venue {
-  max-width: 9em;
+  max-width: 12em;
 }
 
 .ornament {

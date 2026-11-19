@@ -1,7 +1,7 @@
 import type { WeddingConfig } from '../../config/types';
 import { useTilt } from '../../hooks/useTilt';
 import { formatWeddingTime, getDateParts } from '../../lib/date';
-import { MapPinIcon } from '../ui/icons';
+import { ClockIcon, MapPinIcon } from '../ui/icons';
 import { Monogram } from '../ui/Monogram';
 import { Ornament } from '../ui/Ornament';
 import styles from './InvitationPanel.module.css';
@@ -57,7 +57,7 @@ export function InvitationPanel({ wedding, decorative = false }: InvitationPanel
             {bride.house}
           </p>
 
-          <div className={styles.details}>
+          <div className={`${styles.details} ${wedding.time ? styles.detailsWithTime : ''}`}>
             <p className={styles.when}>
               <time dateTime={wedding.date}>
                 <span className={styles.day}>{day}</span>
@@ -66,18 +66,19 @@ export function InvitationPanel({ wedding, decorative = false }: InvitationPanel
                   {weekday} {year}
                 </span>
               </time>
-              <span className={styles.line}>{wedding.hijriDate}</span>
-              {wedding.time && (
-                <time className={styles.line} dateTime={`${wedding.date}T${wedding.time}`}>
-                  {formatWeddingTime(wedding.time)}
-                </time>
-              )}
             </p>
             <p className={styles.where}>
               <MapPinIcon className={styles.pin} />
               <span className={styles.venue}>{venue.name}</span>
               <span className={styles.line}>{venue.location}</span>
             </p>
+            {wedding.time && (
+              <p className={styles.time}>
+                <ClockIcon className={styles.clock} />
+                <span className={styles.timeLabel}>Time</span>
+                <time dateTime={`${wedding.date}T${wedding.time}`}>{formatWeddingTime(wedding.time)}</time>
+              </p>
+            )}
           </div>
 
           <p className={styles.honoured}>{messages.honoured}</p>

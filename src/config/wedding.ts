@@ -23,8 +23,6 @@ export const wedding: WeddingConfig = {
   utcOffset: '+05:30',
   timeZone: 'Asia/Kolkata',
   locale: 'en-GB',
-  hijriDate: '1 Rajab',
-
   venue: {
     name: 'Galaxy Convention Centre',
     location: 'Changaramkulam',

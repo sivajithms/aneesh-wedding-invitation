@@ -31,9 +31,6 @@ export interface WeddingConfig {
   /** IANA zone used to display dates, regardless of where the guest is. */
   timeZone: string;
   locale: string;
-  /** Islamic calendar date as printed on the card. */
-  hijriDate: string;
-
   venue: {
     name: string;
     location: string;

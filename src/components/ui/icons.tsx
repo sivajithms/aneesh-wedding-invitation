@@ -41,6 +41,14 @@ export const CalendarIcon = (props: IconProps) => (
   </Icon>
 );
 
+/** Simple clock, paired with the venue pin in the invitation details. */
+export const ClockIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 7v5l3.5 2" />
+  </Icon>
+);
+
 export const EnvelopeIcon = (props: IconProps) => (
   <Icon {...props}>
     <rect x="3.5" y="5.5" width="17" height="13" rx="1.5" />
