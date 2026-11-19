@@ -38,3 +38,13 @@ export function formatCardDate(date: string): string {
   const { weekday, month, year } = getDateParts(date);
   return `${weekday} ${formatOrdinalDay(date)} ${month} ${year}`;
 }
+
+/** Converts a configured 24-hour time ("HH:mm") to its card-friendly form ("12 PM"). */
+export function formatWeddingTime(time?: string): string | undefined {
+  if (!time) return undefined;
+
+  const [hours, minutes] = time.split(':').map(Number);
+  const period = hours < 12 ? 'AM' : 'PM';
+  const hour = hours % 12 || 12;
+  return minutes === 0 ? `${hour} ${period}` : `${hour}:${String(minutes).padStart(2, '0')} ${period}`;
+}

@@ -1,5 +1,5 @@
 import type { WeddingConfig } from '../../config/types';
-import { formatCardDate } from '../../lib/date';
+import { formatCardDate, formatWeddingTime } from '../../lib/date';
 import styles from './FrontCover.module.css';
 
 /**
@@ -12,7 +12,9 @@ export function FrontCover({ wedding }: { wedding: WeddingConfig }) {
       <p className={styles.names}>
         {wedding.groom.name} <span className={styles.with}>{wedding.messages.joiner}</span> {wedding.bride.name}
       </p>
-      <p className={styles.date}>On {formatCardDate(wedding.date)}</p>
+      <p className={styles.date}>
+        On {formatCardDate(wedding.date)}{wedding.time ? ` at ${formatWeddingTime(wedding.time)}` : ''}
+      </p>
     </div>
   );
 }

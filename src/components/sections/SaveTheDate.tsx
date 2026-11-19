@@ -1,7 +1,7 @@
 import type { WeddingConfig } from '../../config/types';
 import { useCountdown } from '../../hooks/useCountdown';
 import { createIcsFile, downloadTextFile, googleCalendarUrl } from '../../lib/calendar';
-import { formatCardDate, formatOrdinalDay, getDateParts } from '../../lib/date';
+import { formatCardDate, formatOrdinalDay, formatWeddingTime, getDateParts } from '../../lib/date';
 import { mapsUrl } from '../../lib/links';
 import { getCalendarEvent, getWeddingStart } from '../../lib/wedding';
 import { Button, LinkButton } from '../ui/Button';
@@ -64,6 +64,12 @@ export function SaveTheDate({ id, wedding }: { id: string; wedding: WeddingConfi
           </h2>
           <p className={styles.on}>
             On <time dateTime={wedding.date}>{formatCardDate(wedding.date)}</time>
+            {wedding.time && (
+              <>
+                {' at '}
+                <time dateTime={`${wedding.date}T${wedding.time}`}>{formatWeddingTime(wedding.time)}</time>
+              </>
+            )}
           </p>
 
           <Countdown target={getWeddingStart(wedding)} />
@@ -91,6 +97,12 @@ export function SaveTheDate({ id, wedding }: { id: string; wedding: WeddingConfi
               {formatOrdinalDay(wedding.date)} {month}
               <br />
               {year}
+              {wedding.time && (
+                <>
+                  <br />
+                  {formatWeddingTime(wedding.time)}
+                </>
+              )}
             </time>
           </p>
           <p className={styles.bandText}>

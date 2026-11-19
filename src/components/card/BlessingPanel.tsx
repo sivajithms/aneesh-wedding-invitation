@@ -1,7 +1,7 @@
 import type { WeddingConfig } from '../../config/types';
 import { useInView } from '../../hooks/useInView';
 import { REVEAL_OBSERVER_OPTIONS } from '../../constants/motion';
-import { formatCardDate } from '../../lib/date';
+import { formatCardDate, formatWeddingTime } from '../../lib/date';
 import { Ornament } from '../ui/Ornament';
 import styles from './BlessingPanel.module.css';
 
@@ -41,6 +41,12 @@ export function BlessingPanel({ wedding, decorative = false }: BlessingPanelProp
       </p>
       <p className={styles.date}>
         On <time dateTime={wedding.date}>{formatCardDate(wedding.date)}</time>
+        {wedding.time && (
+          <>
+            {' at '}
+            <time dateTime={`${wedding.date}T${wedding.time}`}>{formatWeddingTime(wedding.time)}</time>
+          </>
+        )}
       </p>
     </div>
   );

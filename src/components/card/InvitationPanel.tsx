@@ -1,6 +1,6 @@
 import type { WeddingConfig } from '../../config/types';
 import { useTilt } from '../../hooks/useTilt';
-import { getDateParts } from '../../lib/date';
+import { formatWeddingTime, getDateParts } from '../../lib/date';
 import { MapPinIcon } from '../ui/icons';
 import { Monogram } from '../ui/Monogram';
 import { Ornament } from '../ui/Ornament';
@@ -67,6 +67,11 @@ export function InvitationPanel({ wedding, decorative = false }: InvitationPanel
                 </span>
               </time>
               <span className={styles.line}>{wedding.hijriDate}</span>
+              {wedding.time && (
+                <time className={styles.line} dateTime={`${wedding.date}T${wedding.time}`}>
+                  {formatWeddingTime(wedding.time)}
+                </time>
+              )}
             </p>
             <p className={styles.where}>
               <MapPinIcon className={styles.pin} />

@@ -19,7 +19,7 @@ export const wedding: WeddingConfig = {
   monogram: ['A', 'H'],
 
   date: '2026-12-20',
-  // time: '11:00', // TODO: not printed on the card — add once confirmed.
+  time: '12:00',
   utcOffset: '+05:30',
   timeZone: 'Asia/Kolkata',
   locale: 'en-GB',
